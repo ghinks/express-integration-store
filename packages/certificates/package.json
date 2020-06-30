@@ -1,0 +1,51 @@
+{
+  "name": "@gvhinks/certificates",
+  "version": "0.0.3",
+  "description": "create certificates for the project",
+  "main": "lib/index.js",
+  "scripts": {
+    "lint": "eslint lib/**/*.js",
+    "test": "mocha lib/**/*.spec.js"
+  },
+  "keywords": [
+    "key",
+    "cert",
+    "openssl"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/certificates#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "http://localhost:4873"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.2",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "mocha": "^8.0.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "env": {
+      "node": true,
+      "mocha": true
+    }
+  },
+  "gitHead": "a1d16d0c92223ce564fe4da3ec021d8f183d038f"
+}

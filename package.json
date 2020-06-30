@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/ghinks/express-integration-store/issues"
   },
-  "homepage": "https://github.com/ghinks/express-integration-store#readme"
+  "homepage": "https://github.com/ghinks/express-integration-store#readme",
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
 }
