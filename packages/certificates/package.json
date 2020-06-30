@@ -1,5 +1,5 @@
 {
-  "name": "certificates",
+  "name": "@gvhinks/certificates",
   "version": "0.0.0",
   "description": "create certificates for the project",
   "main": "lib/index.js",

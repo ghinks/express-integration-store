@@ -1,5 +1,5 @@
 {
-  "name": "redis-store",
+  "name": "@ghinks/redis-store",
   "version": "0.0.0",
   "description": "Integration test suite for express session via connect redis",
   "keywords": [
@@ -22,5 +22,14 @@
   },
   "bugs": {
     "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "dependencies": {
+    "certificates": "^0.0.0",
+    "connect-redis": "^4.0.4",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "is-docker": "^2.0.0",
+    "redis": "^3.0.2"
   }
 }
