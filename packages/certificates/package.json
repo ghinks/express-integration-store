@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/certificates",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "create certificates for the project",
   "main": "lib/index.js",
   "scripts": {
@@ -46,5 +46,6 @@
       "node": true,
       "mocha": true
     }
-  }
+  },
+  "gitHead": "2ac86f15bd5aa4167874606b60ce2cfce14ce302"
 }
