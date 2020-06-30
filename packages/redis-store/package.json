@@ -1,0 +1,26 @@
+{
+  "name": "redis-store",
+  "version": "0.0.0",
+  "description": "Integration test suite for express session via connect redis",
+  "keywords": [
+    "redis",
+    "express",
+    "session"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/redis-store#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  }
+}
