@@ -11,7 +11,7 @@
   "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/redis-store#readme",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "http://localhost:4873"
   },
   "repository": {
     "type": "git",

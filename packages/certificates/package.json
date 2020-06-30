@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/certificates",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "create certificates for the project",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/certificates#readme",
   "license": "MIT",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "http://localhost:4873"
   },
   "repository": {
     "type": "git",
@@ -47,5 +47,5 @@
       "mocha": true
     }
   },
-  "gitHead": "2ac86f15bd5aa4167874606b60ce2cfce14ce302"
+  "gitHead": "a1d16d0c92223ce564fe4da3ec021d8f183d038f"
 }
