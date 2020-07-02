@@ -7,8 +7,8 @@ const RedisStore = require("connect-redis")(session);
 const redis = require("redis");
 const isDocker = require("is-docker");
 const https = require("https");
-const getCertificates = require("certificates");
 
+const fsp = fs.promises;
 const app = express();
 const secret = "keyboardcat";
 const REDIS_PORT = 6379;
@@ -46,16 +46,29 @@ app.get("/bar", (req, res) => {
   res.send("hello");
 });
 
+const getCertificates = async () => {
+  const cert = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.crt'), 'utf-8');
+  const key = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.key'), 'utf-8');
+  return {
+    cert,
+    key
+  };
+}
+
 getCertificates()
-  .then(({ certificate:cert, key }) => {
+  .then(({ cert, key }) => {
     https
       .createServer(
         {
           key,
-          cert: certificate
+          cert
         },
         app
       )
       .listen(APP_PORT);
-  });
+  })
+  .catch((e) => {
+   console.error('bad ...things');
+   console.log(e.message);
+  })
 
