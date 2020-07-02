@@ -46,6 +46,14 @@ app.get("/bar", (req, res) => {
   res.send("hello");
 });
 
+app.get("/bar/bye", (req, res) => {
+  debug(`${req.route.path}`);
+  res.json({
+    path: req.route.path,
+    value: "bye bye"
+  })
+});
+
 const getCertificates = async () => {
   const cert = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.crt'), 'utf-8');
   const key = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.key'), 'utf-8');
