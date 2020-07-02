@@ -30,5 +30,8 @@
     "express-session": "^1.17.1",
     "is-docker": "^2.0.0",
     "redis": "^3.0.2"
+  },
+  "env": {
+    "node": true
   }
 }

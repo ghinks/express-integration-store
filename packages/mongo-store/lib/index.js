@@ -1,45 +1,38 @@
-const path = require("path");
-const fs = require("fs");
-const debug = require("debug")("session");
-const express = require("express");
-const session = require("express-session");
-const RedisStore = require("connect-redis")(session);
-const redis = require("redis");
+const fs = require('fs');
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+const mongoose = require('mongoose');
+const https = require('https');
 const isDocker = require("is-docker");
-const https = require("https");
 
+const APP_PORT = 3001;
+const secret = 'keyboard cat 123';
 const fsp = fs.promises;
 const app = express();
-const secret = "keyboardcat";
-const REDIS_PORT = 6379;
-const APP_PORT = 3000;
+const MongoStore = require('connect-mongo')(session);
 
+const debug = require('debug')('test-session');
 // the docker compose service is called redis
-let host = "localhost";
+let mongoHostName = "localhost";
 if (isDocker()) {
-  host = "redis";
+  mongoHostName = "mongo_srv";
 }
-
-const redisClient = redis.createClient({
-  host,
-  port: REDIS_PORT,
+mongoose.connect(`mongodb://${mongoHostName}/session`, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 });
-
 app.use(
   session({
     cookie: {
-      secure: true,
-      path: "/bar",
-      maxAge: 60000,
-      domain: "localhost",
+      secure: true, path: '/bar', maxAge: 60000, httpOnly: true, domain: 'localhost',
     },
-    store: new RedisStore({ client: redisClient }),
+    store: new MongoStore({dbName: "session", mongooseConnection: mongoose.connection}),
     secret,
-    resave: false,
-    name: "test-integration-sid-redis",
+    // resave: true,
+    name: 'test-integration-sid-mongo',
     proxy: true,
-    saveUninitialized: true,
-  })
+  }),
 );
 app.get("/bar", (req, res) => {
   debug(`${req.route.path}`);
@@ -76,7 +69,7 @@ getCertificates()
       .listen(APP_PORT);
   })
   .catch((e) => {
-   console.error('bad ...things');
-   console.log(e.message);
+    console.error('bad ...things'); // eslint-disable-line no-console
+    console.log(e.message); // eslint-disable-line no-console
   })
 

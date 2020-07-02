@@ -1,0 +1,57 @@
+{
+  "name": "mongo-store",
+  "version": "0.0.3",
+  "description": "express session via mongo db",
+  "keywords": [
+    "express",
+    "session",
+    "mongo",
+    "lerna"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/mongo-store#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "http://localhost:4873/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "scripts": {
+    "lint": "eslint lib/**/*.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "dependencies": {
+    "connect-mongo": "^3.2.0",
+    "debug": "^4.1.1",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "is-docker": "^2.0.0",
+    "mongoose": "^5.9.21"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ]
+  }
+}
