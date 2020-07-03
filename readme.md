@@ -1,5 +1,13 @@
 # Testing tool for express session connect modules
+
+## Description
+This mono repo allows the testing of the various express-session connect modules that are in the public registry. The
+majority of the connect modules persist to some sort of DB that can be shared with amongst various instances of the nodejs
+servers so that load balancing is possible. For all but the most trival systems testing is achieved using Docker based 
+services.
+
 ## modules targeted
+The following connect modules are to be tested with the priority being given to those with the highest downloads.
 
 | name | downloads (1000s) |
 |------------------------|------|
