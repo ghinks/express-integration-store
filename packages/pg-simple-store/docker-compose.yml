@@ -1,0 +1,26 @@
+version: "3"
+services:
+  pg_srv:
+    image: postgres:12.3
+    environment:
+      - POSTGRES_PASSWORD=keyboardcat
+    ports:
+      - 5432:5432
+    volumes:
+    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  express-session-test-pg-simple:
+    build: .
+    ports:
+      - 3002:3002
+    volumes:
+      - .:/home/node/code
+      - /home/node/code/node_modules
+    depends_on:
+      - pg_srv
+    environment:
+      - DEBUG=express-session,session
+      - PGUSER=postgres
+      - PGHOST=pg_srv
+      - PGPASSWORD=keyboardcat
+      - PGPORT=5432
+      - PGDATABASE=postgres

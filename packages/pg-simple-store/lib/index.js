@@ -2,49 +2,43 @@ const fs = require('fs');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const mongoose = require('mongoose');
-const https = require('https');
-const isDocker = require("is-docker");
+const cookieParse = require('cookie-parser');
+const isDocker = require('is-docker');
 
-const APP_PORT = 3001;
-const secret = 'keyboard cat 123';
 const fsp = fs.promises;
 const app = express();
-const MongoStore = require('connect-mongo')(session);
+const PostgresStore = require('connect-pg-simple');
+const https = require('https');
+const secret = 'keyboard cat';
+const APP_PORT = 3002;
 
-const debug = require('debug')('test-session');
-// the docker compose service is called mongo
-let mongoHostName = "localhost";
+// the docker compose service is called pg_srv
+let postgresHostname = "localhost";
 if (isDocker()) {
-  mongoHostName = "mongo_srv";
+  postgresHostname = "pg_srv";
 }
-mongoose.connect(`mongodb://${mongoHostName}/session`, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+app.use(cookieParse(secret));
+app.use((req, res, next) => {
+  console.log('something...');
+  next();
 });
 app.use(
   session({
     cookie: {
       secure: true, path: '/bar', maxAge: 60000, httpOnly: true, domain: 'localhost',
     },
-    store: new MongoStore({dbName: "session", mongooseConnection: mongoose.connection}),
-    secret,
-    // resave: true,
-    name: 'test-integration-sid-mongo',
+    store: new (PostgresStore(session))(),
+    secret: secret,
+    resave: false,
+    name: 'test-integration-sid-pg-simple',
     proxy: true,
+    saveUninitialized: true
   }),
 );
-app.get("/bar", (req, res) => {
-  debug(`${req.route.path}`);
-  res.send("hello");
-});
 
-app.get("/bar/bye", (req, res) => {
-  debug(`${req.route.path}`);
-  res.json({
-    path: req.route.path,
-    value: "bye bye"
-  })
+app.get('/bar', (req, res) => {
+  console.log('/bar');
+  res.send('bar');
 });
 
 const getCertificates = async () => {
@@ -71,5 +65,5 @@ getCertificates()
   .catch((e) => {
     console.error('bad ...things'); // eslint-disable-line no-console
     console.log(e.message); // eslint-disable-line no-console
-  })
+  });
 
