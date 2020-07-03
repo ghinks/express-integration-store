@@ -1,0 +1,56 @@
+{
+  "name": "lru-memory-store",
+  "version": "0.0.3",
+  "description": "express session example using the memory store module that utilizes lru cache",
+  "keywords": [
+    "express",
+    "session",
+    "test",
+    "memory",
+    "store"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/lru-memory-store#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "http://localhost:4873/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "scripts": {
+    "lint": "eslint lib/**/*.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "dependencies": {
+    "debug": "^4.1.1",
+    "express-session": "^1.17.1",
+    "express": "^4.17.1",
+    "memorystore": "^1.6.2"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ]
+  }
+}
