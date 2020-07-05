@@ -9,14 +9,14 @@ services.
 ## modules targeted
 The following connect modules are to be tested with the priority being given to those with the highest downloads.
 
-| name | downloads (1000s) |
-|------------------------|------|
-| [connect-redis](https://www.npmjs.com/package/connect-redis) | 220 |
-| [connect-mongo](https://www.npmjs.com/package/connect-mongo) | 81 |
-| [memorystore](https://www.npmjs.com/package/memorystore) | 41 |
+| name | downloads (1000s) | local test package |
+|------------------------|------|------|
+| [connect-redis](https://www.npmjs.com/package/connect-redis) | 220 | redis-store |
+| [connect-mongo](https://www.npmjs.com/package/connect-mongo) | 81 | mongo-store |
+| [memorystore](https://www.npmjs.com/package/memorystore) | 41 | lru-memory-store |
 | [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize) | 31 |
 | [session-file-store](https://www.npmjs.com/package/session-file-store) | 18 |
-| [connect-pg-simple](https://www.npmjs.com/package/connect-pg-simple) | 15 |
+| [connect-pg-simple](https://www.npmjs.com/package/connect-pg-simple) | 15 | pg-simple-store |
 | [express-mysql-session](https://www.npmjs.com/package/express-mysql-session) | 12 |
 | [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session) | 10 |
 | [connect-session-knex](https://www.npmjs.com/package/connect-session-knex) | 7 |
