@@ -1,11 +1,5 @@
 # `lru-memory-store`
 
-> TODO: description
+## Description
+Simple single route example using **memorystore**.
 
-## Usage
-
-```
-const lruMemoryStore = require('lru-memory-store');
-
-// TODO: DEMONSTRATE API
-```

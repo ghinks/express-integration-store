@@ -1,11 +1,11 @@
 # `mongo-store`
 
-> TODO: description
 
-## Usage
+## description
+A very simple example of the use of the **connect-mongo** module. 
 
-```
-const mongoStore = require('mongo-store');
+This example provides the basics required to create a route that uses session and uses Docker to create the 
+mongo service. 
 
-// TODO: DEMONSTRATE API
-```
+
+
