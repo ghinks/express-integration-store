@@ -14,7 +14,7 @@ The following connect modules are to be tested with the priority being given to 
 | [connect-redis](https://www.npmjs.com/package/connect-redis) | 220 | redis-store |
 | [connect-mongo](https://www.npmjs.com/package/connect-mongo) | 81 | mongo-store |
 | [memorystore](https://www.npmjs.com/package/memorystore) | 41 | lru-memory-store |
-| [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize) | 31 |
+| [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize) | 31 | sequelize-store |
 | [session-file-store](https://www.npmjs.com/package/session-file-store) | 18 |
 | [connect-pg-simple](https://www.npmjs.com/package/connect-pg-simple) | 15 | pg-simple-store |
 | [express-mysql-session](https://www.npmjs.com/package/express-mysql-session) | 12 |
