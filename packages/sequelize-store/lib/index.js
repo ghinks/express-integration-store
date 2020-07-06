@@ -9,20 +9,28 @@ const https = require("https");
 const connectSessionSequelize = require("connect-session-sequelize");
 
 const SequelizeStore = connectSessionSequelize(session.Store);
-const sequelize = new Sequelize('postgres://postgres:keyboardcat@localhost:5432/sequelize');
 const fsp = fs.promises;
 const app = express();
-const secret = "keyboardcat";
+const password = "keyboardcat";
+const dbname = 'sequelize';
+const username = 'postgres';
 const APP_PORT = 3005;
 
 // the docker compose service is called redis
 let host = "localhost";
 if (isDocker()) {
-  host = "redis";
+  host = "pg_srv";
 }
+const sequelize = new Sequelize(
+  dbname, username, password, {
+    host,
+    dialect: 'postgres'
+  }
+);
 
-var myStore = new SequelizeStore({
+const myStore = new SequelizeStore({
   db: sequelize,
+  host,
 });
 
 app.use(
