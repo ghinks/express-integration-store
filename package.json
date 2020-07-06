@@ -18,6 +18,12 @@
   },
   "homepage": "https://github.com/ghinks/express-integration-store#readme",
   "devDependencies": {
+    "husky": "^4.2.5",
     "lerna": "^3.22.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run lint"
+    }
   }
 }
