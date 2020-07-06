@@ -79,7 +79,9 @@ getCertificates()
       .listen(APP_PORT);
   })
   .catch((e) => {
+    // eslint-disable no console
     console.error('bad ...things');
     console.log(e.message);
+    // eslint-enable no console
   })
 

@@ -3,32 +3,23 @@ const express = require('express');
 const session = require('express-session');
 const path = require('path');
 const cookieParse = require('cookie-parser');
-const isDocker = require('is-docker');
 
 const fsp = fs.promises;
 const app = express();
 const PostgresStore = require('connect-pg-simple');
 const https = require('https');
+
 const secret = 'keyboard cat';
 const APP_PORT = 3002;
 
-// the docker compose service is called pg_srv
-let postgresHostname = "localhost";
-if (isDocker()) {
-  postgresHostname = "pg_srv";
-}
 app.use(cookieParse(secret));
-app.use((req, res, next) => {
-  console.log('something...');
-  next();
-});
 app.use(
   session({
     cookie: {
       secure: true, path: '/bar', maxAge: 60000, httpOnly: true, domain: 'localhost',
     },
     store: new (PostgresStore(session))(),
-    secret: secret,
+    secret,
     resave: false,
     name: 'test-integration-sid-pg-simple',
     proxy: true,
