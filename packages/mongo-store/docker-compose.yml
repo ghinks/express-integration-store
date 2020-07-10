@@ -12,6 +12,6 @@ services:
     environment:
       - DEBUG=express-session,session
   mongo_srv:
-    image: mongo:3
+    image: mongo:3.6.18
     ports:
       - "27017:27017"
