@@ -10,7 +10,7 @@ const PostgresStore = require('connect-pg-simple');
 const https = require('https');
 
 const secret = 'keyboard cat';
-const APP_PORT = 3002;
+const APP_PORT = 3000;
 
 app.use(cookieParse(secret));
 app.use(
