@@ -3,7 +3,7 @@ services:
   express-session-test-with-mongo:
     build: .
     ports:
-      - "3001:3001"
+      - "3000:3000"
     volumes:
       - .:/home/node/code
       - /home/node/code/node_modules

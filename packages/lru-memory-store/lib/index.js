@@ -10,7 +10,7 @@ const fsp = fs.promises;
 const app = express();
 const MemoryStore = memoryStore(session);
 
-const APP_PORT = 3004;
+const APP_PORT = 3000;
 const secret = 'keyboard cat 123';
 app.use(session({
   store: new MemoryStore({ checkPeriod: 24 * 60 *60 * 1000}),

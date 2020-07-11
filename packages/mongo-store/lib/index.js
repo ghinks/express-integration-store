@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const https = require('https');
 const isDocker = require("is-docker");
 
-const APP_PORT = 3001;
+const APP_PORT = 3000;
 const secret = 'keyboard cat 123';
 const fsp = fs.promises;
 const app = express();

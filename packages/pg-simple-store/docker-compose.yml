@@ -11,7 +11,7 @@ services:
   express-session-test-pg-simple:
     build: .
     ports:
-      - 3002:3002
+      - 3000:3000
     volumes:
       - .:/home/node/code
       - /home/node/code/node_modules

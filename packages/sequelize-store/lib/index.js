@@ -14,7 +14,7 @@ const app = express();
 const password = "keyboardcat";
 const dbname = 'sequelize';
 const username = 'postgres';
-const APP_PORT = 3005;
+const APP_PORT = 3000;
 
 // the docker compose service is called redis
 let host = "localhost";
