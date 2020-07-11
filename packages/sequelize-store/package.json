@@ -1,6 +1,6 @@
 {
   "name": "sequelize-store",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Example of how to use the connect-session-sequelize module",
   "keywords": [
     "express",
