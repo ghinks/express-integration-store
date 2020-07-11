@@ -1,11 +1,4 @@
 # `smoke-tests`
 
-> TODO: description
+Basic Mocha tests run against end points to carry out basic integration tests.
 
-## Usage
-
-```
-const smokeTests = require('smoke-tests');
-
-// TODO: DEMONSTRATE API
-```
