@@ -28,5 +28,3 @@ The following connect modules are to be tested with the priority being given to 
 | [@google-cloud/connect-datastore](https://www.npmjs.com/package/@google-cloud/connect-datastore) | 1 |
 | [connect-session-firebase](https://www.npmjs.com/package/connect-session-firebase) | 1 |
 
-## requirements
-- docker must be installed
