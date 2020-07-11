@@ -1,0 +1,63 @@
+{
+  "name": "smoke-tests",
+  "version": "0.0.3",
+  "description": "integration tests to smoke out basic behavior",
+  "keywords": [
+    "test",
+    "express",
+    "session"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/smoke-tests#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "http://localhost:4873/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "scripts": {
+    "lint": "eslint lib/**/*.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "prettier-eslint": "^11.0.0"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ],
+    "env": {
+      "node": true,
+      "mocha": true
+    },
+    "settings": {
+      "react": {
+        "version": "999.999.999"
+      }
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run lint"
+    }
+  },
+  "dependencies": {
+    "mocha": "^8.0.1",
+    "superagent": "^5.3.1",
+    "chai": "^4.2.0"
+  }
+}
