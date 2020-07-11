@@ -1,6 +1,6 @@
 {
   "name": "pg-simple-store",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "test application to use postgres and pg-simple connect to test pg simple session",
   "keywords": [
     "express",
