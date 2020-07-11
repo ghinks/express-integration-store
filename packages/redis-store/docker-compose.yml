@@ -12,6 +12,6 @@ services:
     environment:
       - DEBUG=express-session,session
   redis:
-    image: redis
+    image: redis:6.0.5
     ports:
       - "6379:6379"
