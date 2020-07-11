@@ -1,6 +1,6 @@
 {
   "name": "lru-memory-store",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "express session example using the memory store module that utilizes lru cache",
   "keywords": [
     "express",
@@ -28,8 +28,8 @@
   },
   "dependencies": {
     "debug": "^4.1.1",
-    "express-session": "^1.17.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.1",
     "memorystore": "^1.6.2"
   },
   "devDependencies": {

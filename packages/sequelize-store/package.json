@@ -1,6 +1,6 @@
 {
   "name": "sequelize-store",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Example of how to use the connect-session-sequelize module",
   "keywords": [
     "express",
@@ -35,8 +35,8 @@
     "eslint-plugin-react-hooks": "^4.0.0"
   },
   "dependencies": {
-    "debug": "^4.1.1",
     "connect-session-sequelize": "^7.0.0",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "is-docker": "^2.0.0",

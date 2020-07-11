@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/smoke-tests",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "integration tests to smoke out basic behavior",
   "keywords": [
     "test",
@@ -56,8 +56,8 @@
     }
   },
   "dependencies": {
+    "chai": "^4.2.0",
     "mocha": "^8.0.1",
-    "superagent": "^5.3.1",
-    "chai": "^4.2.0"
+    "superagent": "^5.3.1"
   }
 }
