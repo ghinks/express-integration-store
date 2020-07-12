@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: echo test value
         run: echo "$TEST_VALUE"
+        run: echo "========================="
         env:
           TEST_VALUE: ${{ secrets.ACTIONS_MY_TEST_STRING }}
       - uses: actions/checkout@v2
