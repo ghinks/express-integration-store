@@ -1,0 +1,23 @@
+name: Node.js Express Session Integration Package
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-20.10]
+        node: [12.18.2, 14.5.0]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: ./node_modules/.bin/lerna bootstrap
+      - name: linting
+        run: ./node_modules/.bin/lerna run lint
