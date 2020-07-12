@@ -1,4 +1,4 @@
-name: Node.js Express Session Integration Package
+name: NodeMatrix
 
 on:
   workflow_dispatch:
