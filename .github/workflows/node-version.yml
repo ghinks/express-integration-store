@@ -15,7 +15,7 @@ jobs:
         env:
           TEST_VALUE: ${{ secrets.ACTIONS_MY_TEST_STRING }}
       - name: echo test value
-        run: echo ${{ env.TEST_VALUE }}
+        run: echo "$TEST_VALUE"
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2.0.0
         with:
