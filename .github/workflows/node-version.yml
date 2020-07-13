@@ -23,7 +23,7 @@ jobs:
       - name: npm install
         run: npm ci
       - name: alter path
-        run: $PATH=$PATH:$PWD/node_modules/.bin
+        run: $PATH=$PATH:./node_modules/.bin
       - name: lerna bootstrap
         run: ./node_modules/.bin/lerna bootstrap
       - name: linting
