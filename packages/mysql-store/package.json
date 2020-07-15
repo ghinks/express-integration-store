@@ -1,0 +1,59 @@
+{
+  "name": "mysql-store",
+  "version": "0.0.6",
+  "description": "express session example using mysql store",
+  "keywords": [
+    "express",
+    "session",
+    "sql",
+    "mysql",
+    "node",
+    "test"
+  ],
+  "author": "Glenn Hinks <ghinks@yahoo.com>",
+  "homepage": "https://github.com/ghinks/express-integration-store/tree/master/packages/mysql-store#readme",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ghinks/express-integration-store.git"
+  },
+  "scripts": {
+    "lint": "eslint lib/**/*.js"
+  },
+  "bugs": {
+    "url": "https://github.com/ghinks/express-integration-store/issues"
+  },
+  "devDependencies": {
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.3",
+    "eslint-plugin-react-hooks": "^4.0.0",
+    "husky": "^4.2.5",
+    "prettier-eslint": "^11.0.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb",
+      "prettier"
+    ]
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.5",
+    "express": "^4.17.1",
+    "express-mysql-session": "^2.1.4",
+    "express-session": "^1.17.1",
+    "mysql": "^2.18.1"
+  }
+}
