@@ -17,7 +17,7 @@ The following connect modules are to be tested with the priority being given to 
 | [connect-session-sequelize](https://www.npmjs.com/package/connect-session-sequelize) | 31 | sequelize-store |
 | [session-file-store](https://www.npmjs.com/package/session-file-store) | 18 |
 | [connect-pg-simple](https://www.npmjs.com/package/connect-pg-simple) | 15 | pg-simple-store |
-| [express-mysql-session](https://www.npmjs.com/package/express-mysql-session) | 12 |
+| [express-mysql-session](https://www.npmjs.com/package/express-mysql-session) | 12 | mysql-store |
 | [connect-mongodb-session](https://www.npmjs.com/package/connect-mongodb-session) | 10 |
 | [connect-session-knex](https://www.npmjs.com/package/connect-session-knex) | 7 |
 | [connect-dynamodb](https://www.npmjs.com/package/connect-dynamodb) | 4 |
