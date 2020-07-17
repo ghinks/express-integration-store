@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-lru-memory-store",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "express session example using the memory store module that utilizes lru cache",
   "private": true,
   "keywords": [
