@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+    "registry": "http://localhost:4873/"
   },
   "repository": {
     "type": "git",
@@ -55,5 +55,6 @@
     "express-mysql-session": "^2.1.4",
     "express-session": "^1.17.1",
     "mysql": "^2.18.1"
-  }
+  },
+  "gitHead": "2d6f13873218882a9cefa59c0f37743e108893d6"
 }
