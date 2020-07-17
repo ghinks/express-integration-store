@@ -13,7 +13,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "publishConfig": {
-    "registry": "http://localhost:4873/"
+    "registry": "https://registry.npmjs.org/"
   },
   "repository": {
     "type": "git",
