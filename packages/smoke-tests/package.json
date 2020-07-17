@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-smoke-tests",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "integration tests to smoke out basic behavior",
   "private": true,
   "keywords": [
