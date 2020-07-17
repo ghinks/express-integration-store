@@ -2,6 +2,7 @@
   "name": "@gvhinks/express-integration-pg-simple-store",
   "version": "0.0.7",
   "description": "test application to use postgres and pg-simple connect to test pg simple session",
+  "private": true,
   "keywords": [
     "express",
     "session",

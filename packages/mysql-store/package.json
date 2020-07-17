@@ -2,6 +2,7 @@
   "name": "@gvhinks/express-integration-mysql-store",
   "version": "0.0.7",
   "description": "express session example using mysql store",
+  "private": true,
   "keywords": [
     "express",
     "session",

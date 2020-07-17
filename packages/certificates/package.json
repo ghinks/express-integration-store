@@ -3,6 +3,7 @@
   "version": "0.0.7",
   "description": "create certificates for the project",
   "main": "lib/index.js",
+  "private": true,
   "scripts": {
     "lint": "eslint lib/**/*.js",
     "test": "mocha lib/**/*.spec.js"
