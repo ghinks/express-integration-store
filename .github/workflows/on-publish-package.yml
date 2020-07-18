@@ -62,3 +62,6 @@ jobs:
         run: ./node_modules/.bin/lerna run docker:login-github
       - name: docker-pull-github
         run: docker pull docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+      - name: docker-run-express-session-with-redis
+        run: docker run -it -d --name builder docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+
