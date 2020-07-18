@@ -34,11 +34,18 @@ jobs:
     services:
       redis:
         image: redis
+        ports:
+          - "6379:6379"
         options: >-
           --health-cmd "redis-cli ping"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+      express:
+        image: docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+        ports:
+          - 3000:3000
+          - 6379:6379
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
