@@ -21,3 +21,5 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
+      - name: dockeer-publish-github
+        run: ./node_modules/.bin/lerna run docker:publish-github
