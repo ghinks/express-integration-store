@@ -56,9 +56,9 @@ jobs:
       - name: lerna bootstrap
         run: ./node_modules/.bin/lerna bootstrap
       - name: docker-login-github
-          env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            USERNAME: ghinks
-          run: ./node_modules/.bin/lerna run docker:login-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ghinks
+        run: ./node_modules/.bin/lerna run docker:login-github
       - name: docker-pull-github
         run: docker pull docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
