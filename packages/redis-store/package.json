@@ -20,7 +20,8 @@
   "scripts": {
     "lint": "eslint lib/**/*.js",
     "docker:build": "docker build -t express-integration-redis-store:${DOCKER_IMAGE_VERSION} .",
-    "docker:build-github": "docker build -t docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1 ."
+    "docker:build-github": "docker build -t docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1 .",
+    "docker:publish-github": ""
   },
   "bugs": {
     "url": "https://github.com/ghinks/express-integration-store/issues"
