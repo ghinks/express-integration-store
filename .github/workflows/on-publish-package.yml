@@ -65,4 +65,4 @@ jobs:
       - name: docker-run-express-session-with-redis
         run: docker run -it -d --name builder docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
       - name: express-integration-tests
-        run: node packages/smoke-tests/lib/index.js
+        run: ./packages/smoke-tests/node_modules/.bin/mocha packages/smoke-tests/lib/index.js
