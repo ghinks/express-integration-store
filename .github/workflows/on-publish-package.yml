@@ -21,5 +21,10 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
+      - name: docker-login-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ghinks
+        run: ./node_modules/.bin/lerna run docker:login-github
       - name: dockeer-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
