@@ -28,3 +28,6 @@ The following connect modules are to be tested with the priority being given to 
 | [@google-cloud/connect-datastore](https://www.npmjs.com/package/@google-cloud/connect-datastore) | 1 |
 | [connect-session-firebase](https://www.npmjs.com/package/connect-session-firebase) | 1 |
 
+## testing strategy
+In order to test on the GitHub Actions suite it is necessary to run the express session services as docker images. To
+that end we need to be able to publish the express store docker images and then we need to be able to load them to test.
