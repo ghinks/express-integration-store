@@ -18,3 +18,5 @@ jobs:
         run: ./node_modules/.bin/lerna bootstrap
       - name: linting
         run: ./node_modules/.bin/lerna run lint
+      - name: docker-image-build
+        run: ./node_modules/.bin/lerna run docker:build-github
