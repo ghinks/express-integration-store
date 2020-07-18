@@ -5,7 +5,7 @@ const superagent = require("superagent");
 
 const PORT = 3000;
 const HOST = "localhost";
-const PROTOCOL = "https";
+const PROTOCOL = "http";
 
 const formUrl = route => {
   return `${PROTOCOL}://${HOST}:${PORT}/${route}`;

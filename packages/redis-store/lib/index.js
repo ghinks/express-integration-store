@@ -1,14 +1,14 @@
-const path = require("path");
-const fs = require("fs");
+// const path = require("path");
+// const fs = require("fs");
 const debug = require("debug")("session");
 const express = require("express");
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 const redis = require("redis");
 const isDocker = require("is-docker");
-const https = require("https");
+// const https = require("https");
 
-const fsp = fs.promises;
+// const fsp = fs.promises;
 const app = express();
 const secret = "keyboardcat";
 const REDIS_PORT = 6379;
@@ -53,7 +53,8 @@ app.get("/bar/bye", (req, res) => {
     value: "bye bye"
   })
 });
-
+app.listen(APP_PORT);
+/*
 const getCertificates = async () => {
   const cert = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.crt'), 'utf-8');
   const key = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.key'), 'utf-8');
@@ -80,3 +81,4 @@ getCertificates()
    console.log(e.message);
   })
 
+*/
