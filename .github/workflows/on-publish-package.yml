@@ -2,7 +2,7 @@ name: on-publish-package
 on:
   push:
     branches:
-      - master
+      - feat/service-based-test
   workflow_dispatch:
 
 jobs:
@@ -28,3 +28,22 @@ jobs:
         run: ./node_modules/.bin/lerna run docker:login-github
       - name: dockeer-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      redis:
+      options: >-
+        --health-cmd "redis-cli ping"
+        --health-interval 10s
+        --health-timeout 5s
+        --health-retries 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: ./node_modules/.bin/lerna bootstrap
