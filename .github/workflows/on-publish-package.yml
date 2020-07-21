@@ -24,7 +24,7 @@ jobs:
       - name: npm-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          run: ./node_modules/.bin/lerna publish --yes
+        run: ./node_modules/.bin/lerna publish --yes
       - name: docker-login-github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
