@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-redis-store",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Integration test suite for express session via connect redis",
   "keywords": [
     "redis",
