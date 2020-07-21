@@ -26,7 +26,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ghinks
         run: ./node_modules/.bin/lerna run docker:login-github
-      - name: dockeer-publish-github
+      - name: docker-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
   integration:
     needs: build
