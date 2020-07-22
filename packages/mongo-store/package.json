@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-mongo-store",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "express session via mongo db",
   "keywords": [
     "express",
