@@ -21,10 +21,20 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
+      - name: github-username-settings-email
+        env:
+          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
+        run: git config --global user.email $GITHUB_EMAIL
+      - name: github-username-settings-name
+        env:
+          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+        run: git config --global user.name $GITHUB_USER
       - name: npm-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
+          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
           USERNAME: ghinks
         run: ./node_modules/.bin/lerna publish --yes patch
       - name: docker-login-github
