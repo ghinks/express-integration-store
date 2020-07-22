@@ -37,7 +37,9 @@ jobs:
           GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
           GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
           USERNAME: ghinks
-        run: ./node_modules/.bin/lerna publish --yes patch
+        run: |
+          npm whoami
+          ./node_modules/.bin/lerna publish --yes patch
       - name: docker-login-github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
