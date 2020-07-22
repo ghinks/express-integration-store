@@ -31,7 +31,7 @@ jobs:
         run: git config --global user.name $GITHUB_USER
       - name: npm-publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
           GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
