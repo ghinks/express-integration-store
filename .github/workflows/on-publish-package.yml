@@ -21,15 +21,6 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
-      - name: github-username-settings-email
-        env:
-          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
-          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          git config --global user.email $GITHUB_EMAIL
-          git config --global user.name $GITHUB_USER
-          echo "@gvhinks:registry=https://registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> .npmrc
       - name: npm-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -38,7 +29,9 @@ jobs:
           GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
           USERNAME: ghinks
         run: |
-          ./node_modules/.bin/lerna publish --yes patch
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_USER
+          ./node_modules/.bin/lerna publish --yes patch --registry @gvhinks:registry=https://registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
       - name: docker-login-github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
