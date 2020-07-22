@@ -2,7 +2,7 @@ name: on-publish-package
 on:
   push:
     branches:
-      - master
+      - feat/service-based-test
   workflow_dispatch:
 
 jobs:
@@ -21,10 +21,67 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
+      - name: authenticate-with-registry
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "@gvhinks:registry=http://registry.npmjs.org/" > .npmrc
+          echo "registry=http://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+          npm whoami
+      - name: npm-publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
+          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+          USERNAME: ghinks
+        run: |
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_USER
+          ./node_modules/.bin/lerna publish --yes patch
       - name: docker-login-github
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ghinks
         run: ./node_modules/.bin/lerna run docker:login-github
-      - name: dockeer-publish-github
+      - name: docker-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        ports:
+          - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+#      express:
+#        image: docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+#        ports:
+#          - 3000:3000
+#          - 6379:6379
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: ./node_modules/.bin/lerna bootstrap
+      - name: docker-login-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ghinks
+        run: ./node_modules/.bin/lerna run docker:login-github
+      - name: docker-pull-github
+        run: docker pull docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+      - name: docker-run-express-session-with-redis
+        run: docker run -it -d --name builder -p 3000:3000 docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
+      - name: express-integration-tests
+        run: ./packages/smoke-tests/node_modules/.bin/mocha packages/smoke-tests/lib/index.js

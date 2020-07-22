@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-sequelize-store",
-  "version": "0.0.12",
+  "version": "0.0.21",
   "description": "Example of how to use the connect-session-sequelize module",
   "keywords": [
     "express",
