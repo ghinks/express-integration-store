@@ -30,6 +30,7 @@ jobs:
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_USER
           echo "@gvhinks:registry=https://registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN" >> .npmrc
+          cat .npmrc
       - name: npm-publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
