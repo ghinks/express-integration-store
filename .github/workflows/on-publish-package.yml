@@ -21,9 +21,17 @@ jobs:
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build
         run: ./node_modules/.bin/lerna run docker:build-github
+      - name: Authenticate with Registry
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "@gvhinks:registry=http://registry.npmjs.org/" > .npmrc
+          echo "registry=http://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+          npm whoami
       - name: npm-publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
           GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
