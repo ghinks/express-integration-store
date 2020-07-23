@@ -21,9 +21,13 @@ jobs:
       - name: linting
         run: ./node_modules/.bin/lerna run lint
       - name: docker-image-build-github-registry
-        run: ./node_modules/.bin/lerna run docker:build-github
+        run: |
+          ./node_modules/.bin/lerna run docker:build-github
+          docker images
       - name: docker-image-build-docker-hub-registry
-        run: ./node_modules/.bin/lerna run docker:build
+        run: |
+          ./node_modules/.bin/lerna run docker:build
+          docker images
       - name: authenticate-with-registry
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
