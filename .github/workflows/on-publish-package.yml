@@ -56,7 +56,7 @@ jobs:
           docker logout
           echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
       - name: docker-publish-docker-hub
-        run: ./node_modules/.bin/lerna run docker:publish-github
+        run: ./node_modules/.bin/lerna run docker:publish-docker-hub
   integration:
     needs: build
     runs-on: ubuntu-latest
