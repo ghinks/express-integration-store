@@ -45,7 +45,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ghinks
-        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin"
+        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin
       - name: docker-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
       - name: docker-login-docker-hub
