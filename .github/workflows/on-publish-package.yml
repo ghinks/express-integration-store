@@ -2,6 +2,7 @@ name: on-publish-package
 on:
   push:
     branches:
+      - feat/express-as-service
       - feat/service-based-test
   workflow_dispatch:
 # comment
@@ -19,8 +20,14 @@ jobs:
         run: ./node_modules/.bin/lerna bootstrap
       - name: linting
         run: ./node_modules/.bin/lerna run lint
-      - name: docker-image-build
-        run: ./node_modules/.bin/lerna run docker:build-github
+      - name: docker-image-build-github-registry
+        run: |
+          ./node_modules/.bin/lerna run docker:build-github
+          docker images
+      - name: docker-image-build-docker-hub-registry
+        run: |
+          ./node_modules/.bin/lerna run docker:build
+          docker images
       - name: authenticate-with-registry
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -44,9 +51,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ghinks
-        run: ./node_modules/.bin/lerna run docker:login-github
+        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin
       - name: docker-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
+      - name: docker-login-docker-hub
+        env:
+          USERNAME: ghinks
+          DOCKER_HUB_TOKEN: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+        run: |
+          docker logout
+          echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
+      - name: docker-publish-docker-hub
+        run: ./node_modules/.bin/lerna run docker:publish-docker-hub
   integration:
     needs: build
     runs-on: ubuntu-latest
@@ -60,11 +76,10 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-#      express:
-#        image: docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
-#        ports:
-#          - 3000:3000
-#          - 6379:6379
+      express:
+        image: ghinks/express-integration-redis-store:0.0.1
+        ports:
+          - 3000:3000
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -74,14 +89,5 @@ jobs:
         run: npm ci
       - name: lerna bootstrap
         run: ./node_modules/.bin/lerna bootstrap
-      - name: docker-login-github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ghinks
-        run: ./node_modules/.bin/lerna run docker:login-github
-      - name: docker-pull-github
-        run: docker pull docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
-      - name: docker-run-express-session-with-redis
-        run: docker run -it -d --name builder -p 3000:3000 docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1
       - name: express-integration-tests
         run: ./packages/smoke-tests/node_modules/.bin/mocha packages/smoke-tests/lib/index.js
