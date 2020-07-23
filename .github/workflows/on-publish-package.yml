@@ -2,6 +2,7 @@ name: on-publish-package
 on:
   push:
     branches:
+      - feat/express-as-service
       - feat/service-based-test
   workflow_dispatch:
 
@@ -44,9 +45,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ghinks
-        run: ./node_modules/.bin/lerna run docker:login-github
+        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin"
       - name: docker-publish-github
         run: ./node_modules/.bin/lerna run docker:publish-github
+      - name: docker-login-docker-hub
+        env:
+          USERNAME: ghinks
+          DOCKER_HUB_TOKEN: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+        run: |
+          docker logout
+          echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
   integration:
     needs: build
     runs-on: ubuntu-latest
