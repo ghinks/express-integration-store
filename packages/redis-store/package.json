@@ -19,7 +19,7 @@
   },
   "scripts": {
     "lint": "eslint lib/**/*.js",
-    "docker:build": "docker build -t express-integration-redis-store:0.0.1 .",
+    "docker:build": "docker build -t ghinks/express-integration-redis-store:0.0.1 .",
     "docker:build-github": "docker build -t docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1 .",
     "docker:login-github": "echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin",
     "docker:publish-github": "docker push docker.pkg.github.com/ghinks/express-integration-store/express-integration-redis-store:0.0.1 ",
