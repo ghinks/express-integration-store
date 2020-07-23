@@ -1,4 +1,4 @@
-name: on-publish-package
+name: post-publish-integration
 on:
   push:
     branches:
