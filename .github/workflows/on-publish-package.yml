@@ -88,113 +88,12 @@ jobs:
       #  registry was required for services.
       #
       ##################################################
-      - name: docker-image-build-github-registry
-        run: |
-          ./node_modules/.bin/lerna run docker:build-github
-          docker images
-      ##################################################
-      #
-      # Authentication, via github token for github
-      # docker registry
-      #
-      ##################################################
-      - name: docker-login-github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ghinks
-        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin
-      - name: docker-publish-github
-        run: ./node_modules/.bin/lerna run docker:publish-github
-      ##################################################
-      #
-      # This builds the docker hub image, which has a
-      # different URL in the tag from the github registry
-      #
-      ##################################################
-      - name: docker-image-build-docker-hub-registry
-        run: |
-          ./node_modules/.bin/lerna run docker:build
-          docker images
-      ##################################################
-      #
-      #  Docker Hub Public Registry authentication
-      #
-      ##################################################
-      - name: docker-login-docker-hub
-        env:
-          USERNAME: ghinks
-          DOCKER_HUB_TOKEN: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
-        run: |
-          docker logout
-          echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
-      ##################################################
-      #
-      # publish to the public registry
-      #
-      ##################################################
-      - name: docker-publish-docker-hub
-        run: ./node_modules/.bin/lerna run docker:publish-docker-hub
-      ##################################################
-      #   _ __  _ __  _ __ ___
-      #  | '_ \| '_ \| '_ ` _ \
-      #  | | | | |_) | | | | | |
-      #  |_| |_| .__/|_| |_| |_|
-      #        |_|
-      ##################################################
-      ##################################################
-      #
-      # authenticate
-      #
-      ##################################################
-      - name: authenticate-with-registry
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          echo "@gvhinks:registry=http://registry.npmjs.org/" > .npmrc
-          echo "registry=http://registry.npmjs.org/" >> .npmrc
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
-          npm whoami
-      ##################################################
-      #
-      # publish
-      #
-      ##################################################
-      - name: npm-publish
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
-          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
-          USERNAME: ghinks
-        run: |
-          git config --global user.email $GITHUB_EMAIL
-          git config --global user.name $GITHUB_USER
-          ./node_modules/.bin/lerna publish --yes patch
-  integration:
-    needs: build
-    runs-on: ubuntu-latest
-    services:
-      redis:
-        image: redis
-        ports:
-          - "6379:6379"
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-      express:
-        image: ghinks/express-integration-redis-store:0.0.1
-        ports:
-          - 3000:3000
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: docker-action-build-image-to-github-registry
+        uses: docker/build-push-action@v1
         with:
-          node-version: 12
-      - name: npm install
-        run: npm ci
-      - name: lerna bootstrap
-        run: ./node_modules/.bin/lerna bootstrap
-      - name: express-integration-tests
-        run: ./packages/smoke-tests/node_modules/.bin/mocha packages/smoke-tests/lib/index.js
+          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAM }}
+          password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+          repository: ghinks/express-integration-redis-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: packages/redis-store/Dockerfile
