@@ -31,3 +31,7 @@ The following connect modules are to be tested with the priority being given to 
 ## testing strategy
 In order to test on the GitHub Actions suite it is necessary to run the express session services as docker images. To
 that end we need to be able to publish the express store docker images and then we need to be able to load them to test.
+
+## TODOs
+- switch to docker actions rather than the hard coded shell scripts
+- use the docker bump version script
