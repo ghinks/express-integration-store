@@ -88,12 +88,20 @@ jobs:
       #  registry was required for services.
       #
       ##################################################
-      - name: docker-action-build-image-to-github-registry
+      - name: docker-action-build-image-to-docker-public-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
-          repository: ghinks/express-integration-redis-store
+          repository: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}/express-integration-redis-store
           registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: packages/redis-store/Dockerfile
+      - name: docker-action-build-publish-to-github-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: express-integration-redis-store
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
