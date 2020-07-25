@@ -2,10 +2,9 @@ name: on-publish-package
 on:
   push:
     branches:
-      - feat/express-as-service
-      - feat/service-based-test
+      - docs/comment/steps
   workflow_dispatch:
-# comment
+
 jobs:
   build:
     runs-on: ubuntu-latest
