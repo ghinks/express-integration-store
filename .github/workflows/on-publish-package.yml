@@ -103,5 +103,6 @@ jobs:
           username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
           password: ${{ secrets.GITHUB_TOKEN }}
           repository: express-integration-redis-store
+          registry: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/docker.pkg.github.com
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
