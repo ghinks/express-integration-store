@@ -10,24 +10,131 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      ##################################################
+      #
+      # code checkout and node setup, this uses 2 actions
+      # from the market place
+      #
+      ##################################################
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+     ##################################################
+
+      #   _           _ _     _
+      #  | |__  _   _(_) | __| |
+      #  | '_ \| | | | | |/ _` |
+      #  | |_) | |_| | | | (_| |
+      #  |_.__/ \__,_|_|_|\__,_|
+      ##################################################
+
+      ##################################################
+      #
+      # regular use of npm install command
+      #
+      ##################################################
       - name: npm install
         run: npm ci
+      ##################################################
+      #
+      #  A mono repo using lerna has been choosen for
+      #  this project as it will test expressJS session
+      #  behavior against several Database/storeage
+      #  systems.
+      #
+      ##################################################
       - name: lerna bootstrap
         run: ./node_modules/.bin/lerna bootstrap
+      ##################################################
+      #
+      # lerna bootstrap simply installs all the packages
+      # in the mono repo. workspaces are an alternative
+      #
+      ##################################################
       - name: linting
         run: ./node_modules/.bin/lerna run lint
+
+      ##################################################
+      #   ____             _
+      #  |  _ \  ___   ___| | _____ _ __
+      #  | | | |/ _ \ / __| |/ / _ \ '__|
+      #  | |_| | (_) | (__|   <  __/ |
+      #  |____/ \___/ \___|_|\_\___|_|
+      #
+      ##################################################
+
+      ##################################################
+      #
+      #  Github actions offer both a Github docker
+      #  registry and allow access to the public
+      #  docker hub registry. The build scripts will use
+      #  different URLS depending upon the registry.
+      #  Additionally it was found through empirical
+      #  experimentation and articles that running an
+      #  image as a service was not possible with an
+      #  image from the Github registry. The docker
+      #  registry was required for services.
+      #
+      ##################################################
       - name: docker-image-build-github-registry
         run: |
           ./node_modules/.bin/lerna run docker:build-github
           docker images
+      ##################################################
+      #
+      # Authentication, via github token for github
+      # docker registry
+      #
+      ##################################################
+      - name: docker-login-github
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          USERNAME: ghinks
+        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin
+      - name: docker-publish-github
+        run: ./node_modules/.bin/lerna run docker:publish-github
+      ##################################################
+      #
+      # This builds the docker hub image, which has a
+      # different URL in the tag from the github registry
+      #
+      ##################################################
       - name: docker-image-build-docker-hub-registry
         run: |
           ./node_modules/.bin/lerna run docker:build
           docker images
+      ##################################################
+      #
+      #  Docker Hub Public Registry authentication
+      #
+      ##################################################
+      - name: docker-login-docker-hub
+        env:
+          USERNAME: ghinks
+          DOCKER_HUB_TOKEN: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+        run: |
+          docker logout
+          echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
+      ##################################################
+      #
+      # publish to the public registry
+      #
+      ##################################################
+      - name: docker-publish-docker-hub
+        run: ./node_modules/.bin/lerna run docker:publish-docker-hub
+      ##################################################
+      #   _ __  _ __  _ __ ___
+      #  | '_ \| '_ \| '_ ` _ \
+      #  | | | | |_) | | | | | |
+      #  |_| |_| .__/|_| |_| |_|
+      #        |_|
+      ##################################################
+      ##################################################
+      #
+      # authenticate
+      #
+      ##################################################
       - name: authenticate-with-registry
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -36,6 +143,11 @@ jobs:
           echo "registry=http://registry.npmjs.org/" >> .npmrc
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
           npm whoami
+      ##################################################
+      #
+      # publish
+      #
+      ##################################################
       - name: npm-publish
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -47,22 +159,6 @@ jobs:
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_USER
           ./node_modules/.bin/lerna publish --yes patch
-      - name: docker-login-github
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ghinks
-        run: echo $GITHUB_TOKEN | docker login https://docker.pkg.github.com -u ${USERNAME} --password-stdin
-      - name: docker-publish-github
-        run: ./node_modules/.bin/lerna run docker:publish-github
-      - name: docker-login-docker-hub
-        env:
-          USERNAME: ghinks
-          DOCKER_HUB_TOKEN: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
-        run: |
-          docker logout
-          echo $DOCKER_HUB_TOKEN | docker login https://registry.hub.docker.com -u $USERNAME --password-stdin
-      - name: docker-publish-docker-hub
-        run: ./node_modules/.bin/lerna run docker:publish-docker-hub
   integration:
     needs: build
     runs-on: ubuntu-latest
