@@ -91,7 +91,7 @@ jobs:
       - name: docker-action-build-image-to-github-registry
         uses: docker/build-push-action@v1
         with:
-          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAM }}
+          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
           password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
           repository: ghinks/express-integration-redis-store
           registry: registry.hub.docker.com
