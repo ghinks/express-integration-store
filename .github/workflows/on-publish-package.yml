@@ -4,7 +4,19 @@ on:
     branches:
       - docs/comment/steps
   workflow_dispatch:
-
+##################################################
+#
+# The intention of this actions file is to allow
+# both npm packages to be published and docker
+# images to be built in the build job.
+# After the build job has successfully published
+# then the integration testing using the published
+# modules and images can take place in the one
+# actions file.
+# The docker image built in the build job is used
+# in the integration job as a service.
+#
+##################################################
 jobs:
   build:
     runs-on: ubuntu-latest
