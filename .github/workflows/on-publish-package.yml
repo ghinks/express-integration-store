@@ -105,6 +105,7 @@ jobs:
           registry: registry.hub.docker.com
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
+          path: packages/redis-store
       ##################################################
       #
       # note the github docker registry requires the docker
@@ -121,6 +122,7 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
+          path: packages/redis-store
       ###################################################
       ##   _ __  _ __  _ __ ___
       ##  | '_ \| '_ \| '_ ` _ \
@@ -186,7 +188,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       express:
-        image: ghinks/express-integration-redis-store:0.0.1
+        image: ghinks/express-integration-redis-store:latest
         ports:
           - 3000:3000
     steps:
