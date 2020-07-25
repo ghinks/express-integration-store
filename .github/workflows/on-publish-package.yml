@@ -27,7 +27,6 @@ jobs:
       # from the market place
       #
       ##################################################
-      - name: checkout-and-setup
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
