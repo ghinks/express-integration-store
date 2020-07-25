@@ -131,7 +131,8 @@ jobs:
       ###################################################
       ##################################################
       #
-      # authenticate
+      # authenticate, this is a mono repo and the current
+      # github actions authenticate
       #
       ##################################################
       - name: authenticate-with-registry
