@@ -88,7 +88,16 @@ jobs:
       #  registry was required for services.
       #
       ##################################################
-      - name: docker-action-build-image-to-docker-public-registry
+      ##################################################
+      #
+      #  The default registry is the docker public registry
+      #  however for the purposes of comparison the author
+      #  has included the registry so that the step is
+      #  easier to compare to the publish to the github
+      # docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-to-docker-public-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
@@ -97,7 +106,14 @@ jobs:
           registry: registry.hub.docker.com
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
-      - name: docker-action-build-publish-to-github-registry
+      ##################################################
+      #
+      # note the github docker registry requires the docker
+      # repository to be :user/:repo_name/image_name
+      # The registry is the internal github docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-to-github-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
@@ -106,3 +122,30 @@ jobs:
           registry: docker.pkg.github.com
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
+      ###################################################
+      ##   _ __  _ __  _ __ ___
+      ##  | '_ \| '_ \| '_ ` _ \
+      ##  | | | | |_) | | | | | |
+      ##  |_| |_| .__/|_| |_| |_|
+      ##        |_|
+      ###################################################
+      ##################################################
+      #
+      # Publish
+      # There are several github actions in the marketplace
+      # that carry out the npm publish. This repo is a
+      # lerna mono repo and the publish would require
+      # access to both github to bump the versions in the
+      # package.json and the npm registry
+      #
+      ##################################################
+      - name: npm-publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
+          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+        run: |
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_USER
+          ./node_modules/.bin/lerna publish --yes patch
