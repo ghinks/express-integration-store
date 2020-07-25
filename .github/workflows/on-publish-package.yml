@@ -199,4 +199,4 @@ jobs:
       - name: lerna bootstrap
         run: ./node_modules/.bin/lerna bootstrap
       - name: express-integration-tests
-        run: ./packages/smoke-tests/node_modules/.bin/mocha packages/smoke-tests/lib/index.js
+        run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
