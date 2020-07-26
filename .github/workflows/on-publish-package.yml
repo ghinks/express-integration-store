@@ -66,7 +66,7 @@ jobs:
       #
       ##################################################
       - name: linting
-        run: ./node_modules/.bin/lerna run lint
+        run: lerna run lint
 
       ##################################################
       #   ____             _
@@ -165,7 +165,7 @@ jobs:
         run: |
           git config --global user.email $GITHUB_EMAIL
           git config --global user.name $GITHUB_USER
-          ./node_modules/.bin/lerna publish --yes patch
+          lerna publish --yes patch
   ##################################################
   #    _____           _                                   _     _
   #   |_   _|         | |                                 | |   (_)
@@ -199,9 +199,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
       - name: npm install
         run: npm ci
       - name: lerna bootstrap
-        run: ./node_modules/.bin/lerna bootstrap
+        run: lerna bootstrap
       - name: express-integration-tests
         run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
