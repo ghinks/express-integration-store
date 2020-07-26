@@ -1,0 +1,210 @@
+name: on-publish-package
+on:
+  push:
+    branches:
+      - feature/https
+  workflow_dispatch:
+##################################################
+#
+# The intention of this actions file is to allow
+# both npm packages to be published and docker
+# images to be built in the build job.
+# After the build job has successfully published
+# then the integration testing using the published
+# modules and images can take place in the one
+# actions file.
+# The docker image built in the build job is used
+# in the integration job as a service.
+#
+##################################################
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      ##################################################
+      #
+      # code checkout and node setup, this uses 2 actions
+      # from the market place
+      #
+      ##################################################
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      ##################################################
+      #   _           _ _     _
+      #  | |__  _   _(_) | __| |
+      #  | '_ \| | | | | |/ _` |
+      #  | |_) | |_| | | | (_| |
+      #  |_.__/ \__,_|_|_|\__,_|
+      ##################################################
+
+      ##################################################
+      #
+      # regular use of npm install command
+      #
+      ##################################################
+      - name: npm-install
+        run: npm ci
+      ##################################################
+      #
+      #  A mono repo using lerna has been choosen for
+      #  this project as it will test expressJS session
+      #  behavior against several Database/storeage
+      #  systems.
+      #
+      ##################################################
+      - name: lerna-bootstrap
+        run: lerna bootstrap
+      ##################################################
+      #
+      # lerna bootstrap simply installs all the packages
+      # in the mono repo. workspaces are an alternative
+      #
+      ##################################################
+      - name: linting
+        run: lerna run lint
+
+      ##################################################
+      #   ____             _
+      #  |  _ \  ___   ___| | _____ _ __
+      #  | | | |/ _ \ / __| |/ / _ \ '__|
+      #  | |_| | (_) | (__|   <  __/ |
+      #  |____/ \___/ \___|_|\_\___|_|
+      #
+      ##################################################
+
+      ##################################################
+      #
+      #  Github actions offer both a Github docker
+      #  registry and allow access to the public
+      #  docker hub registry. The build scripts will use
+      #  different URLS depending upon the registry.
+      #  Additionally it was found through empirical
+      #  experimentation and articles that running an
+      #  image as a service was not possible with an
+      #  image from the Github registry. The docker
+      #  registry was required for services.
+      #
+      ##################################################
+      ##################################################
+      #
+      #  The default registry is the docker public registry
+      #  however for the purposes of comparison the author
+      #  has included the registry so that the step is
+      #  easier to compare to the publish to the github
+      # docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-to-docker-public-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+          repository: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}/express-integration-redis-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: packages/redis-store/Dockerfile
+          path: packages/redis-store
+      ##################################################
+      #
+      # note the github docker registry requires the docker
+      # repository to be :user/:repo_name/image_name
+      # The registry is the internal github docker registry
+      #
+      ##################################################
+      - name: docker-build-publish-to-github-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          repository: ${{ secrets.ACTIONS_GITHUB_USERNAME }}/express-integration-store/express-integration-redis-store
+          registry: docker.pkg.github.com
+          tags: latest
+          dockerfile: packages/redis-store/Dockerfile
+          path: packages/redis-store
+      ###################################################
+      ##   _ __  _ __  _ __ ___
+      ##  | '_ \| '_ \| '_ ` _ \
+      ##  | | | | |_) | | | | | |
+      ##  |_| |_| .__/|_| |_| |_|
+      ##        |_|
+      ###################################################
+      ##################################################
+      #
+      # authenticate, this is a mono repo and the current
+      # github actions authenticate
+      #
+      ##################################################
+      - name: authenticate-with-registry
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          echo "@gvhinks:registry=http://registry.npmjs.org/" > .npmrc
+          echo "registry=http://registry.npmjs.org/" >> .npmrc
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      ##################################################
+      #
+      # Publish
+      # There are several github actions in the marketplace
+      # that carry out the npm publish. This repo is a
+      # lerna mono repo and the publish would require
+      # access to both github to bump the versions in the
+      # package.json and the npm registry
+      #
+      ##################################################
+      - name: npm-publish
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_EMAIL: ${{ secrets.ACTIONS_GITHUB_EMAIL }}
+          GITHUB_USER: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
+        run: |
+          git config --global user.email $GITHUB_EMAIL
+          git config --global user.name $GITHUB_USER
+          lerna publish --yes patch
+  ##################################################
+  #    _____           _                                   _     _
+  #   |_   _|         | |                                 | |   (_)
+  #     | |    _ __   | |_    ___    __ _   _ __    __ _  | |_   _    ___    _ __
+  #     | |   | '_ \  | __|  / _ \  / _` | | '__|  / _` | | __| | |  / _ \  | '_ \
+  #    _| |_  | | | | | |_  |  __/ | (_| | | |    | (_| | | |_  | | | (_) | | | | |
+  #   |_____| |_| |_|  \__|  \___|  \__, | |_|     \__,_|  \__| |_|  \___/  |_| |_|
+  #                                  __/ |
+  #                                 |___/
+  #
+  ##################################################
+  integration:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      redis:
+        image: redis
+        ports:
+          - "6379:6379"
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      express:
+        image: ghinks/express-integration-redis-store:latest
+        ports:
+          - 3000:3000
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: lerna bootstrap
+      - name: express-integration-tests
+        env:
+          PORT_NUM: 3000
+        run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
