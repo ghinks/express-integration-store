@@ -98,7 +98,7 @@ jobs:
       # docker registry
       #
       ##################################################
-      - name: docker-build-publish-to-docker-public-registry
+      - name: docker-build-publish-redis-to-docker-public-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
@@ -115,7 +115,7 @@ jobs:
       # The registry is the internal github docker registry
       #
       ##################################################
-      - name: docker-build-publish-to-github-registry
+      - name: docker-build-publish-redis-to-github-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
@@ -125,6 +125,23 @@ jobs:
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
           path: packages/redis-store
+      ##################################################
+      #
+      #
+      # publish the mongo image
+      #
+      #
+      ##################################################
+      - name: docker-build-publish-mongo-to-docker-public-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+          repository: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}/express-integration-mongo-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: packages/mongo-store/Dockerfile
+          path: packages/mongo-store
       ###################################################
       ##   _ __  _ __  _ __ ___
       ##  | '_ \| '_ \| '_ ` _ \
@@ -176,7 +193,7 @@ jobs:
   #                                 |___/
   #
   ##################################################
-  integration:
+  integration-redis:
     needs: build
     runs-on: ubuntu-latest
     services:
