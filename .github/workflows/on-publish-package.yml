@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - master
-      - feature/github-action-path-setup
   workflow_dispatch:
 ##################################################
 #
@@ -99,7 +98,7 @@ jobs:
       # docker registry
       #
       ##################################################
-      - name: docker-build-publish-to-docker-public-registry
+      - name: docker-build-publish-redis-to-docker-public-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
@@ -116,7 +115,7 @@ jobs:
       # The registry is the internal github docker registry
       #
       ##################################################
-      - name: docker-build-publish-to-github-registry
+      - name: docker-build-publish-redis-to-github-registry
         uses: docker/build-push-action@v1
         with:
           username: ${{ secrets.ACTIONS_GITHUB_USERNAME }}
@@ -126,6 +125,23 @@ jobs:
           tags: latest
           dockerfile: packages/redis-store/Dockerfile
           path: packages/redis-store
+      ##################################################
+      #
+      #
+      # publish the mongo image
+      #
+      #
+      ##################################################
+      - name: docker-build-publish-mongo-to-docker-public-registry
+        uses: docker/build-push-action@v1
+        with:
+          username: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.ACTIONS_DOCKER_HUB_TOKEN }}
+          repository: ${{ secrets.ACTIONS_DOCKER_HUB_USERNAME }}/express-integration-mongo-store
+          registry: registry.hub.docker.com
+          tags: latest
+          dockerfile: packages/mongo-store/Dockerfile
+          path: packages/mongo-store
       ###################################################
       ##   _ __  _ __  _ __ ___
       ##  | '_ \| '_ \| '_ ` _ \
@@ -177,7 +193,7 @@ jobs:
   #                                 |___/
   #
   ##################################################
-  integration:
+  integration-redis:
     needs: build
     runs-on: ubuntu-latest
     services:
@@ -205,5 +221,37 @@ jobs:
         run: npm ci
       - name: lerna bootstrap
         run: lerna bootstrap
+      - name: express-integration-redis
+        env:
+          PORT_NUM: 3000
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+        run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
+
+  integration-mongo:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:3.6.18
+        ports:
+          - "27017:27017"
+      express:
+        image: ghinks/express-integration-mongo-store:latest
+        ports:
+          - 3000:3000
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: lerna bootstrap
       - name: express-integration-tests
+        env:
+          PORT_NUM: 3000
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
