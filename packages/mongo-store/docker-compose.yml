@@ -8,10 +8,10 @@ services:
       - .:/home/node/code
       - /home/node/code/node_modules
     depends_on:
-      - mongo_srv
+      - mongo
     environment:
       - DEBUG=express-session,session
-  mongo_srv:
+  mongo:
     image: mongo:3.6.18
     ports:
       - "27017:27017"

@@ -16,7 +16,7 @@ const debug = require('debug')('test-session');
 // the docker compose service is called mongo
 let mongoHostName = "localhost";
 if (isDocker()) {
-  mongoHostName = "mongo_srv";
+  mongoHostName = "mongo";
 }
 mongoose.connect(`mongodb://${mongoHostName}/session`, {
   useNewUrlParser: true,
