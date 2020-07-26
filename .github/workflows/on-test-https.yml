@@ -204,7 +204,7 @@ jobs:
         run: npm ci
       - name: lerna bootstrap
         run: lerna bootstrap
-      - name: express-integration-tests
+      - name: express-integration-redis
         env:
           PORT_NUM: 3000
         run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
