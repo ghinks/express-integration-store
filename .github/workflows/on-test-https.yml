@@ -226,3 +226,32 @@ jobs:
           PORT_NUM: 3000
           NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
+
+  integration-mongo:
+    needs: build
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:3.6.18
+        ports:
+          - "27017:27017"
+      express:
+        image: ghinks/express-integration-mongo-store:latest
+        ports:
+          - 3000:3000
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: lerna bootstrap
+      - name: express-integration-tests
+        env:
+          PORT_NUM: 3000
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
+        run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
