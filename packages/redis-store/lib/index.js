@@ -53,8 +53,7 @@ app.get("/bar/bye", (req, res) => {
     value: "bye bye"
   })
 });
-app.listen(APP_PORT);
-/*
+
 const getCertificates = async () => {
   const cert = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.crt'), 'utf-8');
   const key = await fsp.readFile(path.join(__dirname, '../certificates/selfsigned.key'), 'utf-8');
@@ -79,6 +78,5 @@ getCertificates()
   .catch((e) => {
    console.error('bad ...things');
    console.log(e.message);
-  })
+  });
 
-*/
