@@ -207,4 +207,5 @@ jobs:
       - name: express-integration-redis
         env:
           PORT_NUM: 3000
+          NODE_TLS_REJECT_UNAUTHORIZED: 0
         run: ./packages/smoke-tests/node_modules/.bin/mocha --timeout 10000 packages/smoke-tests/lib/index.js
