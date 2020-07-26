@@ -3,7 +3,7 @@ const chai = require("chai");
 const { expect } = chai;
 const superagent = require("superagent");
 
-const PORT = 3000;
+const PORT = process.env.PORT_NUM;
 const HOST = "localhost";
 const PROTOCOL = "http";
 
