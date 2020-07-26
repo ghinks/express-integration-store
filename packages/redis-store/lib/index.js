@@ -1,14 +1,14 @@
-// const path = require("path");
-// const fs = require("fs");
+const path = require("path");
+const fs = require("fs");
 const debug = require("debug")("session");
 const express = require("express");
 const session = require("express-session");
 const RedisStore = require("connect-redis")(session);
 const redis = require("redis");
 const isDocker = require("is-docker");
-// const https = require("https");
+const https = require("https");
 
-// const fsp = fs.promises;
+const fsp = fs.promises;
 const app = express();
 const secret = "keyboardcat";
 const REDIS_PORT = 6379;
