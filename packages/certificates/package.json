@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-certificates",
-  "version": "0.0.53",
+  "version": "0.0.54",
   "description": "create certificates for the project",
   "main": "lib/index.js",
   "scripts": {
