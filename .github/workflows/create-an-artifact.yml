@@ -76,7 +76,7 @@ jobs:
       #
       ##################################################
       - name: smoke-test-tar-ball
-        run: tar -cvf smoky.tar ./packages/smoke-tests
+        run: tar -cvf smoke-tests.tar ./packages/smoke-tests
       - name: upload-smoke-tests
         uses: actions/upload-artifact@v2
         with:
