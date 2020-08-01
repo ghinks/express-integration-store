@@ -79,9 +79,9 @@ jobs:
         run: tar -cvf smoky.tar ./packages/smoke-tests
       - name: upload-smoke-tests
         uses: actions/upload-artifact@v2
-          with:
-            name: smoke-tests
-            path: smoke-tests.tar
+        with:
+          name: smoke-tests
+          path: smoke-tests.tar
 
   ##################################################
   #    _____           _                                   _     _
