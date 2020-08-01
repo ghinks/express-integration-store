@@ -264,12 +264,11 @@ jobs:
           node-version: 12
       - name: setup-node-path
         run: echo '::add-path::./node_modules/.bin'
-      - name: download-smoke-tests
-        uses: actions/download-artifact@v2
-        with:
-          name: smoke-tests
-      - name: untar-smoke-tests
-        run: tar -xvf smoke-tests.tar
+      - name: npm install
+        run: npm ci
+      - name: lerna bootstrap
+        run: lerna bootstrap
+      - name: express-integration-redis
       - name: express-integration-tests
         env:
           PORT_NUM: 3000
