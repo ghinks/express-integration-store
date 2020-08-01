@@ -35,3 +35,7 @@ that end we need to be able to publish the express store docker images and then 
 ## TODOs
 - switch to docker actions rather than the hard coded shell scripts
 - use the docker bump version script
+- create fuller integration tests
+- create an artifact for the smoke tests so we do not need to run lerna again
+- is it possible to create an artifact for the docker image rather than publishing it
+- move example workflows to example folder
