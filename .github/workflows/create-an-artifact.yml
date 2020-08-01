@@ -1,0 +1,110 @@
+name: on-publish-package
+on:
+  push:
+    branches:
+      - feature/artifact-trials
+  workflow_dispatch:
+##################################################
+#
+# The intention of this actions file is to allow
+# both npm packages to be published and docker
+# images to be built in the build job.
+# After the build job has successfully published
+# then the integration testing using the published
+# modules and images can take place in the one
+# actions file.
+# The docker image built in the build job is used
+# in the integration job as a service.
+#
+##################################################
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      ##################################################
+      #
+      # code checkout and node setup, this uses 2 actions
+      # from the market place
+      #
+      ##################################################
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      ##################################################
+      #   _           _ _     _
+      #  | |__  _   _(_) | __| |
+      #  | '_ \| | | | | |/ _` |
+      #  | |_) | |_| | | | (_| |
+      #  |_.__/ \__,_|_|_|\__,_|
+      ##################################################
+
+      ##################################################
+      #
+      # regular use of npm install command
+      #
+      ##################################################
+      - name: npm-install
+        run: npm ci
+      ##################################################
+      #
+      #  A mono repo using lerna has been choosen for
+      #  this project as it will test expressJS session
+      #  behavior against several Database/storeage
+      #  systems.
+      #
+      ##################################################
+      - name: lerna-bootstrap
+        run: lerna bootstrap
+      ##################################################
+      #
+      # lerna bootstrap simply installs all the packages
+      # in the mono repo. workspaces are an alternative
+      #
+      ##################################################
+      - name: linting
+        run: lerna run lint
+      ##################################################
+      #
+      #                  _     _    __                  _
+      #    __ _   _ __  | |_  (_)  / _|   __ _    ___  | |_   ___
+      #   / _` | | '__| | __| | | | |_   / _` |  / __| | __| / __|
+      #  | (_| | | |    | |_  | | |  _| | (_| | | (__  | |_  \__ \
+      #   \__,_| |_|     \__| |_| |_|    \__,_|  \___|  \__| |___/
+      #
+      ##################################################
+      - name: smoke-test-tar-ball
+        run: tar -cvf smoky.tar ./packages/smoke-tests
+      - name: upload-smoke-tests
+        uses: actions/upload-artifact@v2
+          with:
+            name: smoke-tests
+            path: smoke-tests.tar
+
+  ##################################################
+  #    _____           _                                   _     _
+  #   |_   _|         | |                                 | |   (_)
+  #     | |    _ __   | |_    ___    __ _   _ __    __ _  | |_   _    ___    _ __
+  #     | |   | '_ \  | __|  / _ \  / _` | | '__|  / _` | | __| | |  / _ \  | '_ \
+  #    _| |_  | | | | | |_  |  __/ | (_| | | |    | (_| | | |_  | | | (_) | | | | |
+  #   |_____| |_| |_|  \__|  \___|  \__, | |_|     \__,_|  \__| |_|  \___/  |_| |_|
+  #                                  __/ |
+  #                                 |___/
+  #
+  ##################################################
+  integration-redis:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: download-smoke-tests
+        uses: actions/download-artifact@v2
+        with:
+          name: smoke-tests
+      - name: untar-smoke-tests
+        run: tar -xvf smoke-tests.tar
