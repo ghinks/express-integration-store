@@ -115,4 +115,4 @@ dist
 .yarn/unplugged
 .yarn/build-state.yml
 .pnp.*
-
+.docz

@@ -39,3 +39,13 @@ that end we need to be able to publish the express store docker images and then 
 - create an artifact for the smoke tests so we do not need to run lerna again
 - is it possible to create an artifact for the docker image rather than publishing it
 - move example workflows to example folder
+
+## Package Readme files
+- [lru-memory-store](./packages-lru-memory-store-readme)
+- [mongo-store](./packages-mongo-store-readme)
+- [mysql-store](./packages-mysql-store-readme)
+- [pg-simple-store](./packages-pg-simple-store-readme)
+- [redis-store](./packages-redis-store-readme)
+- [sequelize](./packages-sequelize-store-readme)
+- [smoke-tests](./packages-smoke-tests-readme)
+- [certificates](./packages-certificates-readme)
