@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - master
+      - feature/npm-caching
   workflow_dispatch:
 ##################################################
 #
@@ -42,12 +43,26 @@ jobs:
       ##################################################
 
       ##################################################
+      #   ____                  _
+      #  / ___|   __ _    ___  | |__     ___
+      # | |      / _` |  / __| | '_ \   / _ \
+      # | |___  | (_| | | (__  | | | | |  __/
+      #  \____|  \__,_|  \___| |_| |_|  \___|
+      ##################################################
+      - name: restore lerna
+        uses: actions/cache@v2
+        with:
+          path: |
+            node_modules
+            */*/node_modules
+          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      ##################################################
       #
       # regular use of npm install command
       #
       ##################################################
       - name: npm-install
-        run: npm ci
+        run: npm i
       ##################################################
       #
       #  A mono repo using lerna has been choosen for
