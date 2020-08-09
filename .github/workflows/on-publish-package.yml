@@ -62,7 +62,7 @@ jobs:
       #
       ##################################################
       - name: npm-install
-        run: npm ci
+        run: npm i
       ##################################################
       #
       #  A mono repo using lerna has been choosen for
