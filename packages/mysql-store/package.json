@@ -1,6 +1,6 @@
 {
   "name": "@gvhinks/express-integration-mysql-store",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "description": "express session example using mysql store",
   "keywords": [
     "express",
