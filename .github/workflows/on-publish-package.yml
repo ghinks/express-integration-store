@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - master
-      - npm-caching
+      - feature/npm-caching
   workflow_dispatch:
 ##################################################
 #
