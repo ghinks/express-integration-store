@@ -49,20 +49,20 @@ jobs:
       # | |___  | (_| | | (__  | | | | |  __/
       #  \____|  \__,_|  \___| |_| |_|  \___|
       ##################################################
-      - name: restore lerna
-        uses: actions/cache@v2
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+#      - name: restore lerna
+#        uses: actions/cache@v2
+#        with:
+#          path: |
+#            node_modules
+#            */*/node_modules
+#          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
       ##################################################
       #
       # regular use of npm install command
       #
       ##################################################
       - name: npm-install
-        run: npm i
+        run: npm ci
       ##################################################
       #
       #  A mono repo using lerna has been choosen for
