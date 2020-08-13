@@ -87,4 +87,4 @@ jobs:
       #
       ##################################################
       - name: conditional-actions
-        run: echo ${{ GITHUB_REF }}
+        run: echo ${GITHUB_REF}
