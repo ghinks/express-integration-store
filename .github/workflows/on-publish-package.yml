@@ -81,10 +81,10 @@ jobs:
       ##################################################
       - name: linting
         run: lerna run lint
-     ##################################################
-     #
-     # conditional activity based on the branch
-     #
-     ##################################################
-     - name: conditional-actions
-       run: echo ${{ GITHUB_REF }}
+      ##################################################
+      #
+      # conditional activity based on the branch
+      #
+      ##################################################
+      - name: conditional-actions
+        run: echo ${{ GITHUB_REF }}
