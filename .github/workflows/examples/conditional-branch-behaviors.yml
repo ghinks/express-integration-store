@@ -1,0 +1,54 @@
+name: conditional-branch-detection
+on:
+  push:
+    branches:
+      - xxxx
+  workflow_dispatch:
+##################################################
+#
+# The intention of this actions file is to allow
+# both npm packages to be published and docker
+# images to be built in the build job.
+# After the build job has successfully published
+# then the integration testing using the published
+# modules and images can take place in the one
+# actions file.
+# The docker image built in the build job is used
+# in the integration job as a service.
+#
+##################################################
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      ##################################################
+      #
+      # code checkout and node setup, this uses 2 actions
+      # from the market place
+      #
+      ##################################################
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: setup-node-path
+        run: echo '::add-path::./node_modules/.bin'
+      ##################################################
+      #
+      # conditional activity based on the branch
+      #
+      ##################################################
+      - name: conditional-actions
+        run: echo ${GITHUB_REF}
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: echo branch name
+        run: echo ${{ steps.extract_branch.outputs.branch }}
+      - if: ${{ steps.extract_branch.outputs.branch }} == 'master'
+        name: if-this-feature-branch
+        run: echo 'this is the master branch'
+      - if: ${{ steps.extract_branch.outputs.branch }} != 'master'
+        name: if-not-master
+        run: echo 'is not master'

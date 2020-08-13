@@ -1,4 +1,4 @@
-name: on-publish-package
+name: create-an-artifact
 on:
   push:
     branches:
