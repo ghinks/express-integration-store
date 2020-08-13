@@ -46,7 +46,7 @@ jobs:
         run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
         id: extract_branch
       - name: echo branch name
-        run: echo $branch
+        run: echo ${{ steps.extract_branch.outputs.branch }}
       - if: env.branch == 'master'
         name: if-this-feature-branch
         run: echo 'this is the master branch'
