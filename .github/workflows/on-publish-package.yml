@@ -88,3 +88,9 @@ jobs:
       ##################################################
       - name: conditional-actions
         run: echo ${GITHUB_REF}
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: echo branch name
+        run: echo $branch
