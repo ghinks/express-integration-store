@@ -47,9 +47,9 @@ jobs:
         id: extract_branch
       - name: echo branch name
         run: echo $branch
-      - if: branch == 'master'
+      - if: env.branch == 'master'
         name: if-this-feature-branch
         run: echo 'this is the master branch'
-      - if: branch != 'master'
+      - if: env.branch != 'master'
         name: if-not-master
         run: echo 'is not master'
