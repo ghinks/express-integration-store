@@ -35,53 +35,6 @@ jobs:
       - name: setup-node-path
         run: echo '::add-path::./node_modules/.bin'
       ##################################################
-      #   _           _ _     _
-      #  | |__  _   _(_) | __| |
-      #  | '_ \| | | | | |/ _` |
-      #  | |_) | |_| | | | (_| |
-      #  |_.__/ \__,_|_|_|\__,_|
-      ##################################################
-
-      ##################################################
-      #   ____                  _
-      #  / ___|   __ _    ___  | |__     ___
-      # | |      / _` |  / __| | '_ \   / _ \
-      # | |___  | (_| | | (__  | | | | |  __/
-      #  \____|  \__,_|  \___| |_| |_|  \___|
-      ##################################################
-#      - name: restore lerna
-#        uses: actions/cache@v2
-#        with:
-#          path: |
-#            node_modules
-#            */*/node_modules
-#          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      ##################################################
-      #
-      # regular use of npm install command
-      #
-      ##################################################
-      - name: npm-install
-        run: npm ci
-      ##################################################
-      #
-      #  A mono repo using lerna has been choosen for
-      #  this project as it will test expressJS session
-      #  behavior against several Database/storeage
-      #  systems.
-      #
-      ##################################################
-      - name: lerna-bootstrap
-        run: lerna bootstrap
-      ##################################################
-      #
-      # lerna bootstrap simply installs all the packages
-      # in the mono repo. workspaces are an alternative
-      #
-      ##################################################
-      - name: linting
-        run: lerna run lint
-      ##################################################
       #
       # conditional activity based on the branch
       #
@@ -94,3 +47,9 @@ jobs:
         id: extract_branch
       - name: echo branch name
         run: echo $branch
+      - if: branch == 'master'
+        name: if-this-feature-branch
+        run: echo 'this is the master branch'
+      - if: branch != 'master'
+        name: if-not-master
+        run: echo 'is not master'
